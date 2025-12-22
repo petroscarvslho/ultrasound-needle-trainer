@@ -137,7 +137,28 @@ models/vasst_needle.pt
 - Zenodo: https://zenodo.org/search?q=ultrasound
 - Papers With Code: https://paperswithcode.com/datasets?q=ultrasound+needle
 
-## ULTIMO TREINAMENTO REALIZADO
+## DATASETS BAIXADOS
+
+### Brachial Plexus (REAL - com agulha!)
+- **Local**: `/Users/priscoleao/ultrasound-needle-trainer/brachial_plexus/`
+- **Arquivos**: 42,321 frames
+- **Maquinas**: Butterfly, Sonosite, eSaote
+- **Anotacoes**:
+  - Nervos: `data/<machine>/bb_annotations/`
+  - Mascaras: `data/<machine>/ac_masks/`
+  - **AGULHA**: `data/Sonosite/needle/needle_coordinates/`
+
+### Proximo Passo: Processar e Treinar com Dados Reais
+```bash
+cd /Users/priscoleao/ultrasound-needle-trainer
+source venv/bin/activate
+# Criar script de processamento do brachial_plexus
+# Treinar modelo com dados reais
+```
+
+---
+
+## ULTIMO TREINAMENTO REALIZADO (Sintetico)
 
 ### Data: 2025-12-22
 
@@ -176,11 +197,103 @@ models/vasst_needle.pt
 - [x] Visualizacao de predicoes
 - [x] Primeiro treinamento completo (~3.1px erro)
 - [x] Modelo integrado ao aplicativo-usg-final
+- [x] Script de inferencia (inference.py)
+- [x] Modulo de metricas (metrics.py)
+- [x] Cross-validation (cross_validation.py)
+- [x] Benchmark (benchmark.py)
+- [x] Docker (Dockerfile, docker-compose.yml)
+- [x] Testes unitarios (tests/ - 39 testes)
+- [x] Download dataset Brachial Plexus (42,321 frames REAIS)
+- [x] Script process_brachial.py para processar Sonosite com anotacoes de agulha
 
-### Proximas melhorias:
-- [ ] Treinar com datasets reais (Kaggle, CAMUS)
-- [ ] Implementar cross-validation
-- [ ] Adicionar metricas (precision, recall)
-- [ ] Criar script de inferencia separado
-- [ ] Adicionar testes unitarios
-- [ ] Docker container para reproducibilidade
+---
+
+====================================================================
+## PROXIMOS PASSOS (PASSO A PASSO)
+====================================================================
+
+### OBJETIVO: Treinar com Dados REAIS (Brachial Plexus)
+
+O dataset ja foi baixado em:
+`/Users/priscoleao/ultrasound-needle-trainer/brachial_plexus/`
+
+### PASSO 1: Entender a Estrutura do Dataset
+```bash
+cd /Users/priscoleao/ultrasound-needle-trainer
+source venv/bin/activate
+
+# Ver estrutura
+ls -la brachial_plexus/data/
+# Resultado esperado: Butterfly/, Sonosite/, eSaote/
+
+# Anotacoes de AGULHA (so no Sonosite):
+ls brachial_plexus/data/Sonosite/needle/needle_coordinates/
+```
+
+### PASSO 2: Processar Dataset Real (Sonosite)
+Rodar o script `process_brachial.py` para gerar os arquivos:
+`processed/brachial_real/images.npy` e `processed/brachial_real/labels.npy`
+e tambem os splits `processed/X_train.npy`, `Y_train.npy`, etc.
+
+```bash
+python process_brachial.py
+
+# Opcional: nao gerar splits
+python process_brachial.py --no-splits
+```
+
+### PASSO 3: Treinar com Dados Reais
+```bash
+python train_vasst.py
+# Escolher opcao para treinar com brachial_plexus
+```
+
+### PASSO 4: Comparar Resultados
+- Modelo sintetico: ~3.1px erro
+- Modelo real: ???
+
+### PASSO 5: Copiar Modelo Final
+```bash
+cp models/vasst_needle.pt /Users/priscoleao/aplicativo-usg-final/models/
+```
+
+---
+
+====================================================================
+## ARQUITETURA HIBRIDA PARA TODOS OS PLUGINS (FUTURO)
+====================================================================
+
+Usuario escolheu abordagem HIBRIDA:
+- Datasets centralizados em UM local
+- Scripts de treinamento SEPARADOS por plugin
+
+### Estrutura Proposta:
+```
+/Users/priscoleao/
+├── aplicativo-usg-final/           # App principal
+│   └── datasets/                   # Datasets centralizados
+│       ├── unified_dataset_manager.py  # Ja existe!
+│       ├── needle/                 # NEEDLE PILOT
+│       ├── nerve/                  # NERVE TRACK
+│       ├── cardiac/                # CARDIAC AI
+│       └── ...
+│
+└── ultrasound-needle-trainer/      # Treinamento NEEDLE
+    ├── train_vasst.py              # Script especifico
+    └── models/                     # Modelos gerados
+```
+
+### Vantagens do Hibrido:
+1. Dados organizados em um so lugar
+2. Cada plugin tem seu script otimizado
+3. Facil reusar dados entre plugins
+4. Nao mistura codigos diferentes
+
+---
+
+## PROXIMAS MELHORIAS (BACKLOG):
+- [ ] **PRIORIDADE**: Processar brachial_plexus e treinar com dados reais
+- [ ] Baixar mais datasets (Kaggle Nerve, CAMUS)
+- [ ] Implementar arquitetura hibrida completa
+- [ ] Transfer learning entre plugins
+- [ ] Interface web para visualizar treinamento
