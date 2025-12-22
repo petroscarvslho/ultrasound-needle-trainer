@@ -6,7 +6,7 @@
 Estou continuando o desenvolvimento de um projeto de software.
 
 LOCALIZACAO DO PROJETO: /Users/priscoleao/ultrasound-needle-trainer
-REPOSITORIO GIT: https://github.com/SEU_USUARIO/ultrasound-needle-trainer
+REPOSITORIO GIT: https://github.com/petroscarvslho/ultrasound-needle-trainer
 
 AO INICIAR, VOCE DEVE:
 

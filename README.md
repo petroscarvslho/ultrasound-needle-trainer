@@ -14,7 +14,7 @@ Sistema completo para download de datasets e treinamento de CNN para deteccao de
 ## Instalacao
 
 ```bash
-git clone https://github.com/SEU_USUARIO/ultrasound-needle-trainer.git
+git clone https://github.com/petroscarvslho/ultrasound-needle-trainer.git
 cd ultrasound-needle-trainer
 pip install -r requirements.txt
 ```
