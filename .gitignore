@@ -1,0 +1,42 @@
+# Datasets (muito grandes para git)
+synthetic_needle/
+kaggle_nerve/
+camus_cardiac/
+brachial_plexus/
+clarius_open/
+processed/
+
+# Modelos treinados
+models/*.pt
+models/*.h5
+!models/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+*.egg
+.env
+.venv
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# Kaggle
+.kaggle/
