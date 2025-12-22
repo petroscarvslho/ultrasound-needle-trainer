@@ -229,7 +229,7 @@ def train_model(
     # Configurar otimizador e loss
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode='min', factor=0.5, patience=5, verbose=True
+        optimizer, mode='min', factor=0.5, patience=5
     )
     criterion = nn.L1Loss()  # MAE (igual ao VASST original)
 
