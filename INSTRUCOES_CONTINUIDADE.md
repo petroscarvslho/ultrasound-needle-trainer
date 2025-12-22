@@ -137,6 +137,29 @@ models/vasst_needle.pt
 - Zenodo: https://zenodo.org/search?q=ultrasound
 - Papers With Code: https://paperswithcode.com/datasets?q=ultrasound+needle
 
+## ULTIMO TREINAMENTO REALIZADO
+
+### Data: 2025-12-22
+
+### Configuracao:
+- **Dataset**: Sintetico (5000 amostras)
+- **Treino/Validacao**: 4250/750 amostras
+- **Epocas**: 77 (early stopping)
+- **Batch size**: 32
+- **Learning rate**: 0.0001
+- **Device**: MPS (Apple Silicon GPU)
+
+### Resultados:
+- **Melhor Val Loss**: 0.012281
+- **Erro medio**: ~3.1 pixels
+- **Modelo salvo**: models/vasst_needle.pt (151 MB)
+- **Grafico**: models/training_plot.png
+
+### Observacoes:
+- Early stopping ativado apos 77 epocas (patience=15)
+- Modelo copiado para aplicativo-usg-final/models/
+- Fix aplicado: removido parametro `verbose=True` do ReduceLROnPlateau (deprecado no PyTorch recente)
+
 ## ESTADO ATUAL
 
 ### Ultima atualizacao: 2025-12-22
@@ -151,9 +174,11 @@ models/vasst_needle.pt
 - [x] Early stopping
 - [x] Learning rate scheduler
 - [x] Visualizacao de predicoes
+- [x] Primeiro treinamento completo (~3.1px erro)
+- [x] Modelo integrado ao aplicativo-usg-final
 
 ### Proximas melhorias:
-- [ ] Adicionar suporte a mais datasets
+- [ ] Treinar com datasets reais (Kaggle, CAMUS)
 - [ ] Implementar cross-validation
 - [ ] Adicionar metricas (precision, recall)
 - [ ] Criar script de inferencia separado
