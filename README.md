@@ -61,6 +61,22 @@ python train_vasst.py
 
 O modelo sera salvo em: `models/vasst_needle.pt`
 
+### 2.1 Exportar Pesos para Inferencia
+
+```bash
+python export_vasst.py --checkpoint models/vasst_needle.pt --output models/vasst_needle.pt
+```
+
+Isso gera um `state_dict` compatível com o app principal e um arquivo `.meta.json`.
+
+### 2.2 Usar Datasets Unificados (opcional)
+
+```bash
+python sync_unified_exports.py \
+  --source /Users/priscoleao/aplicativo-usg-final/datasets/unified/exports/needle \
+  --dest processed
+```
+
 ### 3. Inferencia
 
 ```bash

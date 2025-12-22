@@ -205,6 +205,8 @@ source venv/bin/activate
 - [x] Testes unitarios (tests/ - 39 testes)
 - [x] Download dataset Brachial Plexus (42,321 frames REAIS)
 - [x] Script process_brachial.py para processar Sonosite com anotacoes de agulha
+- [x] Script export_vasst.py para state_dict compatível com inferencia
+- [x] Script sync_unified_exports.py para usar datasets unificados
 
 ---
 
@@ -242,17 +244,31 @@ python process_brachial.py
 python process_brachial.py --no-splits
 ```
 
-### PASSO 3: Treinar com Dados Reais
+### PASSO 3 (Opcional): Sincronizar Datasets Unificados
+Caso esteja usando o `unified_dataset_manager.py` do app principal:
+
+```bash
+python sync_unified_exports.py \
+  --source /Users/priscoleao/aplicativo-usg-final/datasets/unified/exports/needle \
+  --dest processed
+```
+
+### PASSO 4: Treinar com Dados Reais
 ```bash
 python train_vasst.py
 # Escolher opcao para treinar com brachial_plexus
 ```
 
-### PASSO 4: Comparar Resultados
+### PASSO 5: Exportar Pesos Compatíveis com Inferencia
+```bash
+python export_vasst.py --checkpoint models/vasst_needle.pt --output models/vasst_needle.pt
+```
+
+### PASSO 6: Comparar Resultados
 - Modelo sintetico: ~3.1px erro
 - Modelo real: ???
 
-### PASSO 5: Copiar Modelo Final
+### PASSO 7: Copiar Modelo Final
 ```bash
 cp models/vasst_needle.pt /Users/priscoleao/aplicativo-usg-final/models/
 ```
