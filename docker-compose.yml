@@ -1,0 +1,95 @@
+# NEEDLE PILOT - Docker Compose
+# Orquestra servicos para treinamento e inferencia
+
+version: '3.8'
+
+services:
+  # Servico de treinamento
+  trainer:
+    build:
+      context: .
+      args:
+        BASE_IMAGE: pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+    image: needle-trainer:latest
+    container_name: needle-trainer
+    volumes:
+      - ./synthetic_needle:/app/synthetic_needle
+      - ./processed:/app/processed
+      - ./models:/app/models
+      - ./kaggle_nerve:/app/kaggle_nerve
+      - ./camus_cardiac:/app/camus_cardiac
+    environment:
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: python -c "from train_vasst import train_model; train_model(epochs=100)"
+
+  # Servico de cross-validation
+  cross-validation:
+    build: .
+    image: needle-trainer:latest
+    container_name: needle-cv
+    volumes:
+      - ./synthetic_needle:/app/synthetic_needle
+      - ./processed:/app/processed
+      - ./models:/app/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    command: python cross_validation.py --folds 5 --epochs 50
+
+  # Servico de inferencia (API REST - futuro)
+  inference:
+    build: .
+    image: needle-trainer:latest
+    container_name: needle-inference
+    volumes:
+      - ./models:/app/models:ro
+      - ./images:/app/images
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python inference.py --benchmark
+
+  # Servico de testes
+  tests:
+    build: .
+    image: needle-trainer:latest
+    container_name: needle-tests
+    volumes:
+      - ./models:/app/models:ro
+    command: pytest tests/ -v --tb=short
+
+  # Versao CPU (sem GPU)
+  trainer-cpu:
+    build:
+      context: .
+      args:
+        BASE_IMAGE: python:3.11-slim
+    image: needle-trainer-cpu:latest
+    container_name: needle-trainer-cpu
+    volumes:
+      - ./synthetic_needle:/app/synthetic_needle
+      - ./processed:/app/processed
+      - ./models:/app/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python -c "from train_vasst import train_model; train_model(epochs=50)"
+
+# Volumes nomeados (opcional)
+volumes:
+  synthetic_data:
+  processed_data:
+  trained_models:
