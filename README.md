@@ -135,6 +135,32 @@ print(f"Ponta da agulha: ({tip_x}, {tip_y})")
 
 Este projeto treina modelos para o plugin **NEEDLE PILOT v3.1** do aplicativo principal.
 
+### Arquitetura dos Projetos
+
+```
+┌─────────────────────────────────────┐
+│  ultrasound-needle-trainer          │
+│  (Projeto de Treinamento)           │
+│                                     │
+│  - download_datasets.py             │
+│  - train_vasst.py                   │
+│  - models/vasst_needle.pt  ─────────┼──┐
+└─────────────────────────────────────┘  │
+                                         │ COPIAR
+┌─────────────────────────────────────┐  │
+│  aplicativo-usg-final               │  │
+│  (Projeto Principal)                │  │
+│                                     │  │
+│  - main.py                          │  │
+│  - src/ai_processor.py              │  │
+│    ├── NEEDLE PILOT v3.1 ◄──────────┼──┘
+│    ├── NERVE TRACK                  │
+│    ├── CARDIAC AI                   │
+│    └── ... (10 plugins)             │
+│  - models/vasst_needle.pt           │
+└─────────────────────────────────────┘
+```
+
 ### Apos treinar, copie o modelo:
 
 ```bash

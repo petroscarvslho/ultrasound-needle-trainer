@@ -12,18 +12,38 @@ que gera modelos para o plugin NEEDLE PILOT do aplicativo principal.
 - **Local**: /Users/priscoleao/aplicativo-usg-final
 - **Plugin**: NEEDLE PILOT v3.1 PREMIUM (src/ai_processor.py)
 
+### ARQUITETURA DOS PROJETOS:
+```
+┌─────────────────────────────────────┐
+│  ultrasound-needle-trainer          │
+│  (Projeto de Treinamento)           │
+│                                     │
+│  - download_datasets.py             │
+│  - train_vasst.py                   │
+│  - models/vasst_needle.pt  ─────────┼──┐
+└─────────────────────────────────────┘  │
+                                         │ COPIAR
+┌─────────────────────────────────────┐  │
+│  aplicativo-usg-final               │  │
+│  (Projeto Principal)                │  │
+│                                     │  │
+│  - main.py                          │  │
+│  - src/ai_processor.py              │  │
+│    ├── NEEDLE PILOT v3.1 ◄──────────┼──┘
+│    ├── NERVE TRACK                  │
+│    ├── CARDIAC AI                   │
+│    └── ... (10 plugins)             │
+│  - models/vasst_needle.pt           │
+└─────────────────────────────────────┘
+```
+
 ### FLUXO DE TRABALHO:
 ```
-[ultrasound-needle-trainer]          [aplicativo-usg-final]
-         |                                    |
-   1. Baixar datasets                         |
-   2. Treinar CNN VASST                       |
-   3. Gerar vasst_needle.pt                   |
-         |                                    |
-         +-------> COPIAR MODELO ------------>+
-                                              |
-                                    4. NEEDLE PILOT usa o modelo
-                                    5. Detecta agulhas em tempo real
+1. Baixar datasets (download_datasets.py)
+2. Treinar CNN VASST (train_vasst.py)
+3. Gerar models/vasst_needle.pt
+4. Copiar modelo para aplicativo-usg-final
+5. NEEDLE PILOT usa o modelo para detectar agulhas em tempo real
 ```
 
 ### APOS TREINAR, COPIAR MODELO:
