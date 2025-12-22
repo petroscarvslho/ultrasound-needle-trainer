@@ -1,5 +1,39 @@
 # INSTRUCOES PARA CONTINUAR EM NOVO TERMINAL (CLAUDE CODE)
 
+====================================================================
+## PROJETO RELACIONADO - APLICATIVO USG PRINCIPAL
+====================================================================
+
+Este projeto (ultrasound-needle-trainer) e um **sistema de treinamento**
+que gera modelos para o plugin NEEDLE PILOT do aplicativo principal.
+
+### PROJETO PRINCIPAL:
+- **GitHub**: https://github.com/petroscarvslho/aplicativo-usg-final
+- **Local**: /Users/priscoleao/aplicativo-usg-final
+- **Plugin**: NEEDLE PILOT v3.1 PREMIUM (src/ai_processor.py)
+
+### FLUXO DE TRABALHO:
+```
+[ultrasound-needle-trainer]          [aplicativo-usg-final]
+         |                                    |
+   1. Baixar datasets                         |
+   2. Treinar CNN VASST                       |
+   3. Gerar vasst_needle.pt                   |
+         |                                    |
+         +-------> COPIAR MODELO ------------>+
+                                              |
+                                    4. NEEDLE PILOT usa o modelo
+                                    5. Detecta agulhas em tempo real
+```
+
+### APOS TREINAR, COPIAR MODELO:
+```bash
+cp /Users/priscoleao/ultrasound-needle-trainer/models/vasst_needle.pt \
+   /Users/priscoleao/aplicativo-usg-final/models/
+```
+
+====================================================================
+
 ## PROMPT PARA COPIAR NO NOVO CHAT
 
 ```

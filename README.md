@@ -2,6 +2,8 @@
 
 Sistema completo para download de datasets e treinamento de CNN para deteccao de agulhas em ultrassom.
 
+> **Projeto Relacionado**: Este treinador gera modelos para o plugin **NEEDLE PILOT v3.1** do [Aplicativo USG](https://github.com/petroscarvslho/aplicativo-usg-final)
+
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)
 
@@ -128,6 +130,26 @@ tip_y = int(pred[0] * 256)
 tip_x = int(pred[1] * 256)
 print(f"Ponta da agulha: ({tip_x}, {tip_y})")
 ```
+
+## Integracao com Aplicativo USG
+
+Este projeto treina modelos para o plugin **NEEDLE PILOT v3.1** do aplicativo principal.
+
+### Apos treinar, copie o modelo:
+
+```bash
+cp models/vasst_needle.pt /caminho/para/aplicativo-usg-final/models/
+```
+
+### O NEEDLE PILOT vai:
+- Carregar o modelo automaticamente
+- Usar a CNN para refinar deteccao da ponta da agulha
+- Combinar com Kalman Filter e RANSAC para tracking suave
+
+### Projeto Principal:
+- **GitHub**: https://github.com/petroscarvslho/aplicativo-usg-final
+- **Plugin**: NEEDLE PILOT v3.1 PREMIUM
+- **Arquivo**: src/ai_processor.py
 
 ## Licenca
 
