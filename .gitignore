@@ -9,7 +9,13 @@ processed/
 # Modelos treinados
 models/*.pt
 models/*.h5
+models/*.json
+models/*.png
+models/*.ckpt.pt
 !models/.gitkeep
+
+# Scripts de download
+download_*.sh
 
 # Python
 __pycache__/
