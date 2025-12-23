@@ -273,6 +273,13 @@ python export_vasst.py --checkpoint models/vasst_needle.pt --output models/vasst
 cp models/vasst_needle.pt /Users/priscoleao/aplicativo-usg-final/models/
 ```
 
+### STATUS ATUAL (2025-12-22)
+- `process_brachial.py` rodado: 965 frames com anotacao (Sonosite) gerados em `processed/brachial_real`
+- Treino VASST com dados reais finalizado (100 epocas, batch 32, MPS)
+- Melhor Val Loss: ~0.0185 (erro ~4.7 px)
+- Pesos exportados (state_dict) em `models/vasst_needle.pt` + `vasst_needle.meta.json` e copiados para o app principal
+- Kaggle Nerve ainda bloqueado (401) até aceitar regras no site
+
 ---
 
 ====================================================================
